@@ -5,15 +5,17 @@ import (
 	"net/http"
 )
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello"))
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Home Handler")
 }
 
 func main() {
 	fmt.Println("Servidor rodando na porta 5000")
 
-	//http.HandleFunc("/hello", helloHandler)
-	//http.Handle("/hello", http.HandlerFunc(helloHandler))
+	mux := http.NewServeMux()
+	// Rota coring / ou /hello/
+	// Rota estática /hello
+	mux.HandleFunc("/", homeHandler)
 
-	http.ListenAndServe(":5000", http.HandlerFunc(helloHandler))
-} 
+	http.ListenAndServe(":5000", mux)
+}
