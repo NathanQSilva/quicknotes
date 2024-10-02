@@ -7,7 +7,11 @@ import (
 )
 
 func noteList(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("views/templates/home.html")
+	files := []string{
+		"views/templates/base.html",
+		"views/templates/pages/home.html",
+	}
+	t, err := template.ParseFiles(files...)
 	if err != nil {
 		http.Error(w, "aconteceu um erro ao executar essa página", http.StatusInternalServerError)
 	}
