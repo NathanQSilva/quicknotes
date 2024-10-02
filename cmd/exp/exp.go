@@ -5,12 +5,18 @@ import (
 	"os"
 )
 
+type TemplateData struct {
+	Nome  string
+	Idade int
+}
+
 func main() {
-	t, err := template.New("teste").Parse("<h1>Olá {{ . }}</h1>")
+	t, err := template.ParseFiles("hello.html")
 	if err != nil {
 		panic(err)
 	}
-	err = t.Execute(os.Stdout, "Nathan")
+	data := TemplateData{Nome: "Nathan"}
+	err = t.Execute(os.Stdout, data)
 	if err != nil {
 		panic(err)
 	}

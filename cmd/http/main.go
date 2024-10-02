@@ -2,12 +2,16 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 )
 
 func noteList(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html;charset=utf8")
-	fmt.Fprintf(w, "<h1>Lista de anotações e lembretes</h1>")
+	t, err := template.ParseFiles("views/templates/home.html")
+	if err != nil {
+		http.Error(w, "aconteceu um erro ao executar essa página", http.StatusInternalServerError)
+	}
+	t.Execute(w, nil)
 }
 
 func noteView(w http.ResponseWriter, r *http.Request) {
@@ -16,13 +20,12 @@ func noteView(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Nota não encontrada", http.StatusNotFound)
 		return
 	}
-	note := `
-		<div>
-			<h3>Nota %s</h3>
-			<p>Este é o conteudo da nota</p>
-		</div>
-	`
-	fmt.Fprintf(w, note, id)
+
+	t, err := template.ParseFiles("views/templates/noteView.html")
+	if err != nil {
+		http.Error(w, "aconteceu um erro ao executar essa página", http.StatusInternalServerError)
+	}
+	t.Execute(w, id)
 }
 
 func noteCreate(w http.ResponseWriter, r *http.Request) {
