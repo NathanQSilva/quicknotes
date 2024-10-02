@@ -6,16 +6,23 @@ import (
 )
 
 func noteList(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-
-	w.Header()["Date"] = nil // Suprimir header default
-
-	fmt.Println(w, `{"id": 1}`)
+	w.Header().Set("Content-Type", "text/html;charset=utf8")
+	fmt.Fprintf(w, "<h1>Lista de anotações e lembretes</h1>")
 }
 
 func noteView(w http.ResponseWriter, r *http.Request) {
-	fmt.
-		fmt.Println(w, "Visualização de nota")
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Nota não encontrada", http.StatusNotFound)
+		return
+	}
+	note := `
+		<div>
+			<h3>Nota %s</h3>
+			<p>Este é o conteudo da nota</p>
+		</div>
+	`
+	fmt.Fprintf(w, note, id)
 }
 
 func noteCreate(w http.ResponseWriter, r *http.Request) {
