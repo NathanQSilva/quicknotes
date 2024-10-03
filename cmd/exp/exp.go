@@ -1,20 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
-	"github.com/joho/godotenv"
+	"flag"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
-
-	port := os.Getenv("PORT")
-	host := os.Getenv("HOST")
-
-	fmt.Printf("%s:%s", host, port)
+	port := flag.String("port", "7000", "Server port")
 }
